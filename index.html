@@ -9,50 +9,94 @@
 </head>
 <body>
 <header>
-  <img src="assets/icon-192.png" alt="icono">
-  <div><b>Farol</b> <span class="small">v1.2.0</span></div>
+  <img src="assets/icon-192.png" alt="icono"><div><b>Farol</b> <span class="small">v1.3.0</span></div>
+  <div class="right row"><button id="darkToggle" class="ghost">Modo oscuro</button></div>
 </header>
 
 <div class="container">
   <div class="tabs">
-    <div id="tabbtn-buscar" class="tab active">Buscar TK</div>
-    <div id="tabbtn-sim" class="tab">Simulador</div>
+    <div id="tabbtn-buscar" class="tab active">Buscar</div>
+    <div id="tabbtn-adv" class="tab">Avanzada</div>
+    <div id="tabbtn-qr" class="tab">QR</div>
+    <div id="tabbtn-editor" class="tab">Editor</div>
+    <div id="tabbtn-ajustes" class="tab">Ajustes</div>
     <div id="tabbtn-listado" class="tab">Listado</div>
   </div>
 
   <div id="tab-buscar" data-tab>
     <div class="card">
-      <label>TK (1–208)</label>
       <div class="grid">
-        <input id="tkInput" type="number" placeholder="Ej: 141">
-        <button id="btnBuscar">Buscar</button>
+        <div><label>TK global</label><input id="tkInput" type="number" placeholder="Ej: 141"></div>
+        <div><label>&nbsp;</label><button id="btnBuscar">Buscar</button></div>
       </div>
     </div>
     <div id="searchResult"></div>
   </div>
 
-  <div id="tab-sim" data-tab style="display:none">
+  <div id="tab-adv" data-tab style="display:none">
     <div class="card">
       <div class="grid">
-        <div><label>Plataforma</label>
-          <select id="platSel"><option value="1">P1 (1–70)</option><option value="2">P2 (1–70)</option><option value="3">P3 (1–68)</option></select>
-        </div>
-        <div><label>NETID local</label><input id="netInput" type="number" placeholder="Ej: 1"></div>
-        <div><label>&nbsp;</label><button id="btnSimular">Calcular</button></div>
+        <div><label>Plataforma</label><select id="advPlat"><option value="">Todas</option><option value="1">P1</option><option value="2">P2</option><option value="3">P3</option></select></div>
+        <div><label>Canal (50/55/65)</label><input id="advChan" type="number" placeholder="Ej: 65"></div>
+        <div><label>Rango TK (min)</label><input id="advTkMin" type="number" placeholder="Ej: 141"></div>
+        <div><label>Rango TK (max)</label><input id="advTkMax" type="number" placeholder="Ej: 160"></div>
+        <div><label>Texto en Strings (CB/ST)</label><input id="advText" placeholder="Ej: CB3"></div>
+        <div><label>&nbsp;</label><button id="btnAdvBuscar">Filtrar</button></div>
       </div>
     </div>
-    <div id="simResult"></div>
+    <div id="advResult"></div>
+  </div>
+
+  <div id="tab-qr" data-tab style="display:none">
+    <div class="card">
+      <div class="row"><button id="qrStart">Iniciar cámara</button><button id="qrStop" class="ghost">Detener</button></div>
+      <video id="video" playsinline></video>
+      <div class="small">Requiere <b>BarcodeDetector</b> (Chrome Android). Admite QR/Code128 con valores como <code>141</code> o <code>TK=141</code>.</div>
+      <div id="qrOutput" class="small"></div>
+    </div>
+  </div>
+
+  <div id="tab-editor" data-tab style="display:none">
+    <div class="card">
+      <div class="grid">
+        <div><label>TK</label><input id="edTk" type="number"></div>
+        <div><label>Plataforma (1,2,3)</label><input id="edPlat" type="number"></div>
+        <div><label>ID_local/NETID</label><input id="edIdLocal" type="number"></div>
+        <div><label>Canal</label><input id="edChan" type="number" placeholder="50/55/65"></div>
+        <div><label>Strings (separado por ;)</label><input id="edStrings" placeholder="CBx;STx"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button id="edAdd">Agregar/Actualizar</button>
+        <button id="edDel" class="danger">Eliminar</button>
+        <button id="edExport" class="ghost">Exportar CSV</button>
+        <label class="right small">Importar CSV <input id="edImport" type="file" accept=".csv"></label>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-ajustes" data-tab style="display:none">
+    <div class="card">
+      <div class="grid">
+        <div><label>GitHub Token (scope: gist)</label><input id="ghToken" placeholder="ghp_... (se guarda local)"></div>
+        <div><label>Gist ID (si ya existe)</label><input id="ghGistId" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button id="gistSave">Subir/Actualizar Gist</button>
+        <button id="gistLoad" class="ghost">Cargar desde Gist</button>
+      </div>
+      <div id="ghMsg" class="small"></div>
+    </div>
   </div>
 
   <div id="tab-listado" data-tab style="display:none">
     <div class="card">
-      <div class="grid">
-        <div><button id="platFilterAll">Todas</button></div>
-        <div><button id="platFilter1">P1</button></div>
-        <div><button id="platFilter2">P2</button></div>
-        <div><button id="platFilter3">P3</button></div>
+      <div class="row">
+        <button id="platFilterAll">Todas</button>
+        <button id="platFilter1">P1</button>
+        <button id="platFilter2">P2</button>
+        <button id="platFilter3">P3</button>
+        <div id="countList" class="right small"></div>
       </div>
-      <div class="small" id="countList" style="margin-top:8px"></div>
     </div>
     <div id="list"></div>
   </div>
@@ -60,5 +104,5 @@
   <div id="toast" class="small"></div>
 </div>
 
-<script src="app.js?v=72"></script>
+<script src="app.js?v=73"></script>
 </body></html>

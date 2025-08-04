@@ -1,10 +1,10 @@
-const CACHE='farol-cache-v72';
-const ASSETS=['./','./index.html','./style.css','./app.js?v=72','./manifest.webmanifest',
+const CACHE='farol-cache-v73';
+const ASSETS=['./','./index.html','./style.css','./app.js?v=73','./manifest.webmanifest',
 './assets/icon-192.png','./assets/icon-512.png','./assets/mapeo.csv','./favicon.ico'];
 self.addEventListener('install',e=>{
   e.waitUntil((async()=>{
     const c = await caches.open(CACHE);
-    try { await c.addAll(ASSETS); } catch(e){ /* si falla algún asset (404), seguimos */ }
+    try { await c.addAll(ASSETS); } catch(e){ /* ignora fallos */ }
   })());
 });
 self.addEventListener('activate',e=>{
