@@ -2,37 +2,22 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Farol</title>
-<meta name="description" content="Farol — PWA para trackers, simulador NETID→TK, QR, editor y backup.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://api.github.com;">
-<meta name="theme-color" content="#004D4D">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="assets/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="icon" href="favicon.ico">
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
   <img src="assets/icon-192.png" alt="icono">
-  <div><div><b>Farol</b> <span class="small">v1.1.0</span></div><div class="small">PWA — Offline</div></div>
-  <div class="toggle">
-    <label class="small">Modo oscuro</label>
-    <input id="darkToggle" type="checkbox">
-    <button id="installBtn" style="display:none">Instalar</button>
-  </div>
+  <div><b>Farol</b> <span class="small">v1.2.0</span></div>
 </header>
 
 <div class="container">
   <div class="tabs">
     <div id="tabbtn-buscar" class="tab active">Buscar TK</div>
     <div id="tabbtn-sim" class="tab">Simulador</div>
-    <div id="tabbtn-adv" class="tab">Búsqueda avanzada</div>
-    <div id="tabbtn-qr" class="tab">QR</div>
     <div id="tabbtn-listado" class="tab">Listado</div>
-    <div id="tabbtn-editor" class="tab">Editor</div>
-    <div id="tabbtn-ajustes" class="tab">Ajustes/Backup</div>
   </div>
 
   <div id="tab-buscar" data-tab>
@@ -50,38 +35,13 @@
     <div class="card">
       <div class="grid">
         <div><label>Plataforma</label>
-          <select id="platSel"><option value="1">Plataforma 1 (1–70)</option><option value="2">Plataforma 2 (1–70)</option><option value="3">Plataforma 3 (1–68)</option></select>
+          <select id="platSel"><option value="1">P1 (1–70)</option><option value="2">P2 (1–70)</option><option value="3">P3 (1–68)</option></select>
         </div>
         <div><label>NETID local</label><input id="netInput" type="number" placeholder="Ej: 1"></div>
         <div><label>&nbsp;</label><button id="btnSimular">Calcular</button></div>
       </div>
     </div>
     <div id="simResult"></div>
-  </div>
-
-  <div id="tab-adv" data-tab style="display:none">
-    <div class="card">
-      <div class="grid">
-        <div><label>Plataforma</label><select id="advPlat"><option value="">Todas</option><option>1</option><option>2</option><option>3</option></select></div>
-        <div><label>Canal LoRa</label><select id="advChan"><option value="">Todos</option><option>50</option><option>55</option><option>65</option></select></div>
-        <div><label>Rango TK</label><input id="advRange" placeholder="Ej: 100-160"></div>
-        <div><label>Strings contiene…</label><input id="advStr" placeholder="Ej: CB1_ST01"></div>
-        <div><label>&nbsp;</label><button id="btnAdv">Filtrar</button></div>
-      </div>
-    </div>
-    <div id="advResult"></div>
-  </div>
-
-  <div id="tab-qr" data-tab style="display:none">
-    <div class="card">
-      <p class="small">Apunta al QR (BarcodeDetector). El QR debe contener solo el número de TK o un texto como <code>TK=141</code>.</p>
-      <video id="qrVideo" playsinline style="width:100%;max-height:320px;border-radius:8px;border:1px solid #264"></video>
-      <div class="grid">
-        <button id="btnQrStart">Iniciar cámara</button>
-        <button id="btnQrStop">Detener</button>
-      </div>
-      <div id="qrOutput" class="small"></div>
-    </div>
   </div>
 
   <div id="tab-listado" data-tab style="display:none">
@@ -91,51 +51,14 @@
         <div><button id="platFilter1">P1</button></div>
         <div><button id="platFilter2">P2</button></div>
         <div><button id="platFilter3">P3</button></div>
-        <div>
-          <label class="small">Cargar CSV</label>
-          <input id="csvInput" type="file" accept=".csv">
-        </div>
-        <div><label class="small">&nbsp;</label><button id="btnExport">Exportar CSV</button></div>
-        <div><label class="small">&nbsp;</label><button id="btnReset">Restaurar CSV</button></div>
       </div>
       <div class="small" id="countList" style="margin-top:8px"></div>
     </div>
     <div id="list"></div>
   </div>
 
-  <div id="tab-editor" data-tab style="display:none">
-    <div class="card">
-      <div class="grid">
-        <div><label>TK</label><input id="edTk" type="number"></div>
-        <div><label>Plataforma</label><input id="edPlat" type="number"></div>
-        <div><label>ID_local</label><input id="edIdLocal" type="number"></div>
-        <div><label>NETID</label><input id="edNet" type="number"></div>
-        <div><label>Lora_Channel</label><input id="edChan" type="number"></div>
-        <div><label>Strings</label><input id="edStr" placeholder="CTx_CBy_STzz;..."></div>
-        <div><label>&nbsp;</label><button id="btnEdUpsert">Agregar / Actualizar</button></div>
-        <div><label>&nbsp;</label><button id="btnEdDelete">Eliminar</button></div>
-      </div>
-      <div class="small">Los cambios se guardan offline (LocalStorage). Usa “Exportar” para respaldo.</div>
-    </div>
-    <div class="card">
-      <table id="edTable"><thead><tr><th>TK</th><th>Plat</th><th>ID_local</th><th>NETID</th><th>Canal</th><th>Strings</th></tr></thead><tbody></tbody></table>
-    </div>
-  </div>
-
-  <div id="tab-ajustes" data-tab style="display:none">
-    <div class="card">
-      <div class="grid">
-        <div><label>Token GitHub (opcional, para backup a Gist privado)</label><input id="ghToken" type="password" placeholder="ghp_..."></div>
-        <div><label>Nombre archivo CSV</label><input id="gistFilename" value="mapeo.csv"></div>
-        <div><label>&nbsp;</label><button id="btnGistBackup">Subir a Gist (privado)</button></div>
-        <div><label>&nbsp;</label><button id="btnGistLoad">Cargar desde Gist</button></div>
-      </div>
-      <div id="gistMsg" class="small"></div>
-    </div>
-  </div>
-
   <div id="toast" class="small"></div>
 </div>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=72"></script>
 </body></html>

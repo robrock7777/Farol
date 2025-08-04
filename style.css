@@ -1,26 +1,15 @@
-:root{
-  --teal:#004D4D; --teal2:#00796B; --bg:#f6f7f8; --card:#fff; --text:#111; --muted:#64748b; --chip:#eef2ff; --chipb:#c7d2fe
-}
-:root.dark{
-  --bg:#0b0f10; --card:#0f1517; --text:#e7ecef; --muted:#98a2b3; --chip:#0f2430; --chipb:#224a63
-}
-*{box-sizing:border-box}
+
+:root{--teal:#004D4D;--bg:#f6f7f8;--card:#fff;--text:#111}
 body{margin:0;font-family:system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--text)}
 header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--teal);color:#fff;position:sticky;top:0}
 header img{width:28px;height:28px;border-radius:6px}
-.container{max-width:1100px;margin:0 auto;padding:16px}
+.container{max-width:1000px;margin:0 auto;padding:16px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.tab{padding:8px 12px;border:1px solid #264; border-color:#1d3b3b;border-radius:10px;background:#fff0;cursor:pointer;color:var(--text)}
-.tab.active{background:var(--teal2);border-color:var(--teal2);color:#fff}
+.tab{padding:8px 12px;border:1px solid #1d3b3b;border-radius:10px;background:#fff0;cursor:pointer}
+.tab.active{background:#0a8;border-color:#0a8;color:#fff}
 .card{background:var(--card);border:1px solid #1c2d2d;border-radius:12px;padding:12px;margin:10px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-label{display:block;font-size:14px;margin-bottom:6px}
-input,select,button,textarea{padding:10px;border:1px solid #335;border-radius:10px;width:100%;background:transparent;color:var(--text)}
-button{background:var(--teal2);color:#fff;border:none;cursor:pointer}
-button:disabled{opacity:.6;cursor:not-allowed}
-.badge{display:inline-block;background:var(--chip);color:var(--text);border:1px solid var(--chipb);padding:4px 8px;border-radius:9999px;margin:2px}
-.small{font-size:12px;color:var(--muted)}
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #2a3a3a;padding:8px;text-align:left}
-th{background:#0e2c2c;color:#fff}
-.toggle{margin-left:auto;display:flex;align-items:center;gap:8px}
+input,select,button{padding:10px;border:1px solid #335;border-radius:10px;background:transparent;color:var(--text)}
+button{background:#0a8;color:#fff;border:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid #2a3a3a;padding:8px;text-align:left}th{background:#0e2c2c;color:#fff}
+.small{font-size:12px;color:#64748b}
