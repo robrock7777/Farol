@@ -1,7 +1,7 @@
 // Farol v73 - Completa (CSP safe)
 let DATA=[];let CHANNELS={1:50,2:55,3:65};let deferredPrompt=null;let QR_TIMER=null;let STREAM=null;
 const LS_CSV='farol_csv_text_v1';const LS_TAB='farol_tab_v1';const LS_DARK='farol_dark_v1';const LS_TOKEN='farol_ghtoken_v1';const LS_GIST='farol_gistid_v1';
-const APP_VER='73';
+const APP_VER='74';
 const $=(id)=>document.getElementById(id);
 function toast(m){const t=$('toast');if(t){t.textContent=m;setTimeout(()=>t.textContent='',3500);}}
 
