@@ -1,7 +1,7 @@
 // Farol v73 - Completa (CSP safe)
 let DATA=[];let CHANNELS={1:50,2:55,3:65};let deferredPrompt=null;let QR_TIMER=null;let STREAM=null;
 const LS_CSV='farol_csv_text_v1';const LS_TAB='farol_tab_v1';const LS_DARK='farol_dark_v1';const LS_TOKEN='farol_ghtoken_v1';const LS_GIST='farol_gistid_v1';
-const APP_VER='74';
+const APP_VER='75';
 const $=(id)=>document.getElementById(id);
 function toast(m){const t=$('toast');if(t){t.textContent=m;setTimeout(()=>t.textContent='',3500);}}
 
@@ -27,7 +27,13 @@ function csvParse(text){
 }
 function csvString(){const header='TK,Plataforma,ID_local,NETID,Lora_Channel,Strings';return [header,...DATA.map(r=>[r.tk,r.plat,r.idLocal,r.netid,(r.chan??''),(r.strings||[]).join(';')].join(','))].join('\n');}
 async function loadCsvFromAssets(){const resp=await fetch('./assets/mapeo.csv');return await resp.text();}
-async function loadData(){let text=localStorage.getItem(LS_CSV);if(!text){text=await loadCsvFromAssets();}DATA=csvParse(text);}
+async function loadData(){
+  let text=localStorage.getItem(LS_CSV);
+  if(!text){ text=await loadCsvFromAssets(); }
+  DATA=csvParse(text);
+  const withStr = DATA.filter(r=>r.strings && r.strings.length>0).length;
+  if(withStr < 5){ try{ const t2=await loadCsvFromAssets(); DATA=csvParse(t2); localStorage.setItem(LS_CSV, t2); }catch(e){} }
+}
 
 function hideAllTabs(){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('[data-tab]').forEach(t=>t.style.display='none');}
 function showTab(name){
@@ -220,6 +226,17 @@ async function gistLoad(){
   }else{$('ghMsg').textContent='No se pudo cargar Gist.';}
 }
 
+
+async function reloadAssetsCSV(){
+  try{
+    const text = await loadCsvFromAssets();
+    DATA = csvParse(text);
+    localStorage.setItem(LS_CSV, text);
+    toast('CSV del proyecto recargado.');
+    renderList();
+  }catch(e){ toast('No se pudo recargar CSV.'); }
+}
+
 // --- Modo oscuro ---
 function applyDarkUI(){const d = localStorage.getItem(LS_DARK)==='1'; document.body.classList.toggle('dark', d); $('darkToggle').textContent=d?'Modo claro':'Modo oscuro';}
 function toggleDark(){const d=localStorage.getItem(LS_DARK)==='1'; localStorage.setItem(LS_DARK, d?'0':'1'); applyDarkUI();}
@@ -246,6 +263,7 @@ window.addEventListener('load', async()=>{
   // Ajustes
   $('gistSave')?.addEventListener('click', gistSave);
   $('gistLoad')?.addEventListener('click', gistLoad);
+  $('reloadAssets')?.addEventListener('click', reloadAssetsCSV);
 
   // Tabs
   [['buscar'],['adv'],['qr'],['editor'],['ajustes'],['listado']].forEach(([n])=>{

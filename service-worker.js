@@ -1,5 +1,5 @@
-const CACHE='farol-cache-v74';
-const ASSETS=['./','./index.html','./style.css','./app.js?v=74','./manifest.webmanifest',
+const CACHE='farol-cache-v75';
+const ASSETS=['./','./index.html','./style.css','./app.js?v=75','./manifest.webmanifest',
 './assets/icon-192.png','./assets/icon-512.png','./assets/mapeo.csv','./favicon.ico'];
 self.addEventListener('install',e=>{
   e.waitUntil((async()=>{
