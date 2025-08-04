@@ -13,10 +13,10 @@
 </header>
 <div class="container">
 <div class="tabs">
-  <div id="tabbtn-buscar" class="tab active" onclick="showTab('buscar')">Buscar TK</div>
-  <div id="tabbtn-sim" class="tab" onclick="showTab('sim')">Simulador</div>
-  <div id="tabbtn-listado" class="tab" onclick="showTab('listado')">Listado</div>
-  <div id="tabbtn-acerca" class="tab" onclick="showTab('acerca')">Acerca de</div>
+  <div id="tabbtn-buscar" class="tab active">Buscar TK</div>
+  <div id="tabbtn-sim" class="tab">Simulador</div>
+  <div id="tabbtn-listado" class="tab">Listado</div>
+  <div id="tabbtn-acerca" class="tab">Acerca de</div>
 </div>
 
 <div id="tab-buscar" data-tab>
@@ -81,17 +81,11 @@
       <li>Puedes cargar tu propio <code>CSV</code> desde la pestaña Listado (queda guardado localmente).</li>
       <li>Para instalar: abre en Chrome Android → menú ⋮ → <i>Añadir a pantalla de inicio</i> o usa el botón <b>Instalar</b> si aparece.</li>
     </ul>
-    <p class="small">© 2025 • v1.0.1</p>
+    <p class="small">© 2025 • v1.0.2</p>
   </div>
   <div id="toast" class="small"></div>
 </div>
 </div>
 
-<script src="app.js?v=4"></script>
-<script>
-// Forzar actualización del SW con querystring
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js?v=4');
-}
-</script>
+<script src="app.js?v=5"></script>
 </body></html>
